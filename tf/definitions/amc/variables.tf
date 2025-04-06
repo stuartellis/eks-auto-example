@@ -18,6 +18,10 @@ variable "eks_cluster_config" {
   })
 }
 
+variable "human_admins_role_arn" {
+  type = string
+}
+
 variable "tf_exec_role_arn" {
   type = string
 }

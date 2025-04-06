@@ -14,9 +14,6 @@ module "amc_eks_cluster" {
 
   dataplane_wait_duration = var.eks_cluster_config["dataplane_wait_duration"]
 
-  # Adds the current caller identity as an administrator with a cluster access entry
-  enable_cluster_creator_admin_permissions = var.eks_cluster_config["enable_creator_admin_permissions"]
-
   cluster_compute_config = {
     enabled    = true
     node_pools = ["general-purpose", "system"]
@@ -24,6 +21,26 @@ module "amc_eks_cluster" {
 
   vpc_id     = var.eks_cluster_config["vpc_id"]
   subnet_ids = var.eks_cluster_config["subnet_ids"]
+
+  # Adds the current caller identity as an administrator with a cluster access entry
+  authentication_mode                      = "API"
+  enable_cluster_creator_admin_permissions = var.eks_cluster_config["enable_creator_admin_permissions"]
+
+  access_entries = {
+    aws_admin_role = {
+      kubernetes_groups = []
+      principal_arn     = var.human_admins_role_arn
+      policy_associations = {
+        kubeadmin = {
+          policy_arn = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy"
+          access_scope = {
+            namespaces = []
+            type       = "cluster"
+          }
+        }
+      }
+    }
+  }
 
   tags = {
     Name = local.amc_eks_cluster_name
