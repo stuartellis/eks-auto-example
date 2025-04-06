@@ -21,7 +21,7 @@ See [my Website](https://www.stuartellis.name) for details.
 
 ## Contributing
 
-This project was built for my personal use. I will consider suggestions and Pull Requests, but I might decline anything that makes it less useful for my needs. You are welcome to fork this project.
+This project was built as a minimal example. I will consider suggestions and Pull Requests, but I may decline changes that expand the scope of it. You are welcome to fork this project, or use parts of the code.
 
 ## License
 
