@@ -3,6 +3,5 @@
 # SPDX-License-Identifier: MIT
 #
 
-variable "tf_exec_role_arn" {
-  type = string
-}
+# ARN of AWS role for TF
+tf_exec_role_arn = ""

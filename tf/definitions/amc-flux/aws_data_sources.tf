@@ -3,6 +3,6 @@
 # SPDX-License-Identifier: MIT
 #
 
-variable "tf_exec_role_arn" {
-  type = string
+data "aws_eks_cluster" "this" {
+  name = local.eks_cluster_name
 }

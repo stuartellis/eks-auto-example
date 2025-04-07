@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: MIT
 #
 
-variable "tf_exec_role_arn" {
-  type = string
+resource "kubernetes_namespace" "flux_system" {
+  metadata {
+    name = "flux-system"
+  }
 }
