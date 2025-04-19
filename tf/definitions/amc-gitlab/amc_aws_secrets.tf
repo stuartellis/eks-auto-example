@@ -14,7 +14,7 @@ resource "aws_secretsmanager_secret_version" "amc_flux_ssh_keypair" {
     "name"            = local.amc_gitlab_deploy_key_secret_name,
     "private-key"     = tls_private_key.amc_flux.private_key_openssh,
     "public-key"      = tls_private_key.amc_flux.public_key_openssh,
-    "ssh_known_hosts" = var.gitlab_ssh_known_hosts,
+    "ssh-known-hosts" = var.gitlab_ssh_known_hosts,
   })
 }
 

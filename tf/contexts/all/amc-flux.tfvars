@@ -3,5 +3,4 @@
 # SPDX-License-Identifier: MIT
 #
 
-# ARN of AWS role for TF
-tf_exec_role_arn = ""
+gitlab_ssm_params_identifier = "amc-gitlab"
