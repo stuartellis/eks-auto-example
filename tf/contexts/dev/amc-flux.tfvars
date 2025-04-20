@@ -13,5 +13,5 @@ amc_flux_config = {
   flux_sync_interval      = "5m"
   git_branch              = "main"
   git_url                 = "git@gitlab.com:stuartellis-org/infra/eks-auto-example.git"
-  kustomization_root_path = "clusters"
+  kustomization_root_path = "flux/clusters"
 }
