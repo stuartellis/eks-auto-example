@@ -13,9 +13,9 @@ terraform {
       source  = "hashicorp/aws"
       version = "~> 5.0"
     }
-    flux = {
-      source  = "fluxcd/flux"
-      version = "~> 1.5.1"
+    helm = {
+      source  = "hashicorp/helm"
+      version = "~> 2.17.0"
     }
     kubernetes = {
       source  = "hashicorp/kubernetes"

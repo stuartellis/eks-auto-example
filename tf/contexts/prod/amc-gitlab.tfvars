@@ -5,7 +5,7 @@
 
 aws_secrets_recovery_window = 7
 
-gitlab_project_id = "FIXME"
+gitlab_project_id = "68714430"
 
 human_admins_role_arn = "arn:aws:iam::333594256635:role/stuartellis-org-human-ops-role"
 

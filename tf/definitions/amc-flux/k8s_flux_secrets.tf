@@ -5,7 +5,7 @@
 
 resource "kubernetes_secret" "amc_flux_ssh_keypair" {
   metadata {
-    name      = "ssh-keypair"
+    name      = local.gitlab_deploy_keypair_name
     namespace = "flux-system"
   }
 

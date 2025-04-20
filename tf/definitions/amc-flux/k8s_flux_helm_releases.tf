@@ -34,7 +34,7 @@ resource "helm_release" "flux2_sync" {
 
   set {
     name  = "gitRepository.spec.secretRef.name"
-    value = jsondecode(data.aws_secretsmanager_secret_version.amc_flux_ssh_keypair.secret_string)["name"]
+    value = local.gitlab_deploy_keypair_name
   }
 
   set {

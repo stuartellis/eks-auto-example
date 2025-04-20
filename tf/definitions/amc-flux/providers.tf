@@ -20,14 +20,14 @@ provider "aws" {
   }
 }
 
-provider "flux" {
-  kubernetes = {
+provider "helm" {
+  kubernetes {
     host                   = data.aws_eks_cluster.this.endpoint
-    cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.cluster_certificate_authority_data)
+    cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
     token                  = data.aws_eks_cluster_auth.this.token
   }
 }
-# cluster_certificate_authority_data
+
 provider "kubernetes" {
   host                   = data.aws_eks_cluster.this.endpoint
   cluster_ca_certificate = base64decode(data.aws_eks_cluster.this.certificate_authority[0].data)
