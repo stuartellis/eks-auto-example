@@ -10,6 +10,7 @@
 version: "3"
 
 includes:
+  flux: tasks/flux
   tft: tasks/tft
 
 tasks:
