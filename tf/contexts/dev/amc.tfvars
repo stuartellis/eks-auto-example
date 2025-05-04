@@ -7,6 +7,8 @@ human_admins_role_arn = "arn:aws:iam::333594256635:role/stuartellis-org-human-op
 
 tf_exec_role_arn = "arn:aws:iam::333594256635:role/stuartellis-org-tf-exec-role"
 
+domain_name = "amc-dev.stuartellis.org"
+
 eks_cluster_config = {
   k8s_version                      = "1.32"
   dataplane_wait_duration          = "60s"

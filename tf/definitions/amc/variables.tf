@@ -21,3 +21,7 @@ variable "human_admins_role_arn" {
 variable "tf_exec_role_arn" {
   type = string
 }
+
+variable "domain_name" {
+  type = string
+}
