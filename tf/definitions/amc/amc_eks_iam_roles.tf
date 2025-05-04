@@ -12,7 +12,7 @@ module "amc_eks_iam_external_dns_role" {
   oidc_providers = {
     main = {
       provider_arn               = module.amc_eks_cluster.oidc_provider_arn
-      namespace_service_accounts = ["kube-system:external-dns"]
+      namespace_service_accounts = ["external-dns:external-dns"]
     }
   }
 }
