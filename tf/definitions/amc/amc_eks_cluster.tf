@@ -42,6 +42,13 @@ module "amc_eks_cluster" {
     }
   }
 
+  cluster_addons = {
+    external-dns = {
+      most_recent              = true
+      service_account_role_arn = module.amc_eks_iam_external_dns_role.iam_role_arn
+    }
+  }
+
   tags = {
     Name = local.amc_eks_cluster_name
   }
