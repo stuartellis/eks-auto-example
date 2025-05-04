@@ -8,3 +8,6 @@ patches:
   - path: podinfo-values.yaml
     target:
       kind: HelmRelease
+  - path: ingress.yaml
+    target:
+      kind: Ingress

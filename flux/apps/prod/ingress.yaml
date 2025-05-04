@@ -1,0 +1,13 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: podinfo-ingress
+  namespace: podinfo
+annotations:
+  # Network
+  alb.ingress.kubernetes.io/subnets: subnet-07b4d67d, subnet-5ac87816, subnet-eca28485
+  # AWS resource tags for ALBs
+  alb.ingress.kubernetes.io/tags: "Provisioner=k8s"
+  # DNS record in Route 53
+  external-dns.alpha.kubernetes.io/hostname: podinfo.stuartellis.org
