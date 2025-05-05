@@ -13,7 +13,7 @@ spec:
   values:
     ingress:
       hosts:
-        - host: podinfo.dev
+        - host: podinfo.amc-dev.stuartellis.org
           paths:
             - path: /
               pathType: ImplementationSpecific
