@@ -12,7 +12,7 @@ metadata:
     # Network
     alb.ingress.kubernetes.io/subnets: subnet-07b4d67d, subnet-5ac87816, subnet-eca28485
     # AWS resource tags for ALBs
-    alb.ingress.kubernetes.io/tags: "Environment=dev, Provisioner=k8s-ctrl"
+    alb.ingress.kubernetes.io/tags: "Environment=prod, Provisioner=k8s-ctrl"
     # DNS record in Route 53
     external-dns.alpha.kubernetes.io/hostname: podinfo.amc.stuartellis.org
     # HTTPS with certificate discovery

@@ -15,5 +15,7 @@ metadata:
     alb.ingress.kubernetes.io/tags: "Environment=dev, Provisioner=k8s-ctrl"
     # DNS record in Route 53
     external-dns.alpha.kubernetes.io/hostname: podinfo.amc-dev.stuartellis.org
-    # HTTPS with certificate discovery
+    # HTTPS
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:333594256635:certificate/038f2bab-d5c6-49d7-ad2d-6d16cfc75dc3
+    alb.ingress.kubernetes.io/ssl-redirect: "443"
