@@ -11,5 +11,5 @@ metadata:
     alb.ingress.kubernetes.io/tags: "Provisioner=k8s"
     # DNS record in Route 53
     external-dns.alpha.kubernetes.io/hostname: podinfo.acm.stuartellis.org
-    # Enable TLS with certificate found by discovery
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+    # HTTPS
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":80}, {"HTTPS":443}]'
