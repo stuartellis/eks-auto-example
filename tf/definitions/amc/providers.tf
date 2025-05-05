@@ -4,25 +4,6 @@
 #
 
 provider "aws" {
-  alias  = "us-east-1"
-  region = "us-east-1"
-
-  assume_role {
-    role_arn = var.tf_exec_role_arn
-  }
-
-  default_tags {
-    tags = {
-      Environment = var.environment_name
-      Product     = var.product_name
-      Provisioner = "Terraform"
-      Stack       = var.stack_name
-      Variant     = var.variant
-    }
-  }
-}
-
-provider "aws" {
 
   assume_role {
     role_arn = var.tf_exec_role_arn
