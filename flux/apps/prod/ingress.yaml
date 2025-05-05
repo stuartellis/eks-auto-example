@@ -16,4 +16,4 @@ metadata:
     # DNS record in Route 53
     external-dns.alpha.kubernetes.io/hostname: podinfo.amc.stuartellis.org
     # HTTPS with certificate discovery
-    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":80}, {"HTTPS":443}]'
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
