@@ -13,6 +13,7 @@ spec:
   values:
     ingress:
       hosts:
+        # Required: Host must match DNS record for load balancer in Route 53
         - host: podinfo.amc-dev.stuartellis.org
           paths:
             - path: /
