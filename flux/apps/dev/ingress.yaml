@@ -19,4 +19,4 @@ metadata:
     # Required: Network subnets for the load balancers
     alb.ingress.kubernetes.io/subnets: subnet-07b4d67d, subnet-5ac87816, subnet-eca28485
     # Required: TLS certificate in ACM
-    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:333594256635:certificate/038f2bab-d5c6-49d7-ad2d-6d16cfc75dc3
+    alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:333594256635:certificate/19a36065-0c93-4798-aad6-22fb55286ffd
