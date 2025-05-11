@@ -43,6 +43,10 @@ module "amc_eks_cluster" {
   }
 
   cluster_addons = {
+    amazon-cloudwatch-observability = {
+      most_recent              = true
+      service_account_role_arn = module.amc_eks_iam_cloudwatch_agent_role.iam_role_arn
+    }
     external-dns = {
       most_recent              = true
       service_account_role_arn = module.amc_eks_iam_external_dns_role.iam_role_arn
