@@ -22,7 +22,6 @@ resource "aws_route53_record" "domain_cert_dns" {
 }
 
 resource "aws_acm_certificate_validation" "domain_cert_validation" {
-  provider                = aws.us-east-1
   certificate_arn         = aws_acm_certificate.domain_cert.arn
   validation_record_fqdns = [aws_route53_record.domain_cert_dns.fqdn]
 }
