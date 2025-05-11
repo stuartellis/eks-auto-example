@@ -17,7 +17,7 @@ This project provides an example of using [Amazon EKS](https://docs.aws.amazon.c
 
 ## Usage
 
-See [my Website](https://www.stuartellis.name) for details.
+See [my Website](https://www.stuartellis.name/articles/eks-auto-mode/) for details.
 
 ## Contributing
 
