@@ -7,11 +7,11 @@ variable "tf_exec_role_arn" {
   type = string
 }
 
-variable "amc_eks_cluster_identifier" {
+variable "eks_cluster_identifier" {
   type = string
 }
 
-variable "amc_flux_config" {
+variable "flux_config" {
   type = object({
     flux_version            = string
     flux_sync_version       = string

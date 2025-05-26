@@ -6,7 +6,7 @@
 resource "helm_release" "flux2" {
   repository = "https://fluxcd-community.github.io/helm-charts"
   chart      = "flux2"
-  version    = var.amc_flux_config["flux_version"]
+  version    = var.flux_config["flux_version"]
 
   name      = "flux2"
   namespace = "flux-system"
@@ -17,19 +17,19 @@ resource "helm_release" "flux2" {
 resource "helm_release" "flux2_sync" {
   repository = "https://fluxcd-community.github.io/helm-charts"
   chart      = "flux2-sync"
-  version    = var.amc_flux_config["flux_sync_version"]
+  version    = var.flux_config["flux_sync_version"]
 
   name      = "flux-system"
   namespace = "flux-system"
 
   set {
     name  = "gitRepository.spec.url"
-    value = var.amc_flux_config["git_url"]
+    value = var.flux_config["git_url"]
   }
 
   set {
     name  = "gitRepository.spec.ref.branch"
-    value = var.amc_flux_config["git_branch"]
+    value = var.flux_config["git_branch"]
   }
 
   set {
@@ -39,7 +39,7 @@ resource "helm_release" "flux2_sync" {
 
   set {
     name  = "gitRepository.spec.interval"
-    value = var.amc_flux_config["flux_sync_interval"]
+    value = var.flux_config["flux_sync_interval"]
   }
 
   set {
