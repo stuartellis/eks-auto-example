@@ -3,4 +3,4 @@
 # SPDX-License-Identifier: MIT
 #
 
-gitlab_ssm_params_identifier = "amc-gitlab"
+gitlab_ssm_params_identifier = "gitlab-access"

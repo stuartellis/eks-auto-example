@@ -10,6 +10,6 @@ human_admins_role_arn = "arn:aws:iam::333594256635:role/stuartellis-org-human-op
 tf_exec_role_arn = "arn:aws:iam::333594256635:role/stuartellis-org-human-ops-role"
 
 # Required: GitLab project ID
-gitlab_project_id = "68714430"
+gitlab_project_id = "70222518"
 
 aws_secrets_recovery_window = 7
