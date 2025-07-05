@@ -1,0 +1,27 @@
+# SPDX-FileCopyrightText: 2025-present Stuart Ellis <stuart@stuartellis.name>
+#
+# SPDX-License-Identifier: MIT
+#
+
+terraform {
+  required_version = "> 1.0.0"
+
+  required_providers {
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.0"
+    }
+  }
+}
+
+resource "random_string" "tft_edition_suffix" {
+  length  = 5
+  numeric = false
+  special = false
+  upper   = false
+}
+
+output "random_tft_edition_name" {
+  value       = "tt${random_string.tft_edition_suffix.result}"
+  description = "TFT: A random edition name."
+}
