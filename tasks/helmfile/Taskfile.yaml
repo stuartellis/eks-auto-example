@@ -1,0 +1,79 @@
+---
+# SPDX-FileCopyrightText: 2025-present Stuart Ellis <stuart@stuartellis.name>
+#
+# SPDX-License-Identifier: MIT
+#
+# These are Helmfile tasks for the Task runner:
+#
+# https://taskfile.dev
+#
+# Requirements:
+#
+# - Git
+# - Any UNIX shell
+# - Helm
+# - Helmfile
+#
+# Example:
+#
+# task hf:run -- status
+#
+# Set these variables to override the defaults:
+#
+# - HF_ENVIRONMENT - Helmfile environment
+# - HF_K8S_CONTEXT - Kubernetes context to use
+# - HF_TRACK       - Root directory for the active Helmfile configuration
+
+version: "3"
+
+## Variables ##
+
+vars:
+  # Defaults
+  DEFAULT_HF_CLI_EXE: helmfile
+  DEFAULT_HF_ENVIRONMENT: default
+  DEFAULT_HF_K8S_CONTEXT: minikube
+  DEFAULT_HF_TRACK: main
+
+  # Variables to override
+
+  CURRENT_HF_CLI_EXE:
+    ref: "default .DEFAULT_HF_CLI_EXE .HELMFILE_CLI_EXE"
+
+  CURRENT_HF_TRACK:
+    ref: "default .DEFAULT_HF_TRACK .HF_TRACK"
+
+  CURRENT_HF_ENVIRONMENT:
+    ref: "default .DEFAULT_HF_ENVIRONMENT .HF_ENVIRONMENT"
+
+  CURRENT_HF_K8S_CONTEXT:
+    ref: "default .DEFAULT_HF_K8S_CONTEXT .HF_K8S_CONTEXT"
+
+  # Pre-set variables
+  HF_ROOT_DIR: helmfile
+
+  # Calculated variables
+
+  HF_TRACKS_DIR: "{{.ROOT_DIR}}/{{.HF_ROOT_DIR}}"
+  HF_FILE_PATH: "{{.HF_TRACKS_DIR}}/{{.CURRENT_HF_TRACK}}/helmfile.yaml"
+
+env:
+  HELMFILE_ENVIRONMENT: "{{.CURRENT_HF_ENVIRONMENT}}"
+  HELMFILE_TEMPDIR: "tmp/helmfile"
+
+tasks:
+  info:
+    desc: Helmfile version
+    cmds:
+      - "{{.CURRENT_HF_CLI_EXE}} --version"
+
+  run:
+    desc: Run a Helmfile command
+    cmds:
+      - "{{.CURRENT_HF_CLI_EXE}} {{.CLI_ARGS}} --kube-context {{.CURRENT_HF_K8S_CONTEXT}} -f {{.HF_FILE_PATH}}"
+
+  setup:
+    desc: Setup Helmfile
+    cmds:
+      - "mkdir -p {{.HELMFILE_TEMPDIR}}"
+      - "{{.CURRENT_HF_CLI_EXE}} init"

@@ -12,6 +12,7 @@ version: "3"
 set: [pipefail]
 
 includes:
+  hf: tasks/helmfile
   tft: tasks/tft
 
 tasks:
