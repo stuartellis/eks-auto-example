@@ -9,7 +9,6 @@
 #
 # Requirements:
 #
-# - Git
 # - Any UNIX shell
 # - Helm
 # - Helmfile
@@ -21,8 +20,8 @@
 # Set these variables to override the defaults:
 #
 # - HF_ENVIRONMENT - Helmfile environment
-# - HF_K8S_CONTEXT - Kubernetes context to use
-# - HF_TRACK       - Root directory for the active Helmfile configuration
+# - HF_K8S_CONTEXT - Kubernetes context
+# - HF_PROFILE     - Root directory for the active Helmfile configuration
 
 version: "3"
 
@@ -31,17 +30,17 @@ version: "3"
 vars:
   # Defaults
   DEFAULT_HF_CLI_EXE: helmfile
-  DEFAULT_HF_ENVIRONMENT: default
+  DEFAULT_HF_ENVIRONMENT: local-mkube
   DEFAULT_HF_K8S_CONTEXT: minikube
-  DEFAULT_HF_TRACK: main
+  DEFAULT_HF_PROFILE: main
 
   # Variables to override
 
   CURRENT_HF_CLI_EXE:
     ref: "default .DEFAULT_HF_CLI_EXE .HELMFILE_CLI_EXE"
 
-  CURRENT_HF_TRACK:
-    ref: "default .DEFAULT_HF_TRACK .HF_TRACK"
+  CURRENT_HF_PROFILE:
+    ref: "default .DEFAULT_HF_PROFILE .HF_PROFILE"
 
   CURRENT_HF_ENVIRONMENT:
     ref: "default .DEFAULT_HF_ENVIRONMENT .HF_ENVIRONMENT"
@@ -54,12 +53,12 @@ vars:
 
   # Calculated variables
 
-  HF_TRACKS_DIR: "{{.ROOT_DIR}}/{{.HF_ROOT_DIR}}"
-  HF_FILE_PATH: "{{.HF_TRACKS_DIR}}/{{.CURRENT_HF_TRACK}}/helmfile.yaml"
+  HF_PROFILES_DIR: "{{.ROOT_DIR}}/{{.HF_ROOT_DIR}}"
+  HF_FILE_PATH: "{{.HF_PROFILES_DIR}}/{{.CURRENT_HF_PROFILE}}/helmfile.yaml.gotmpl"
+  HF_CLI_OPTS: "-e {{.CURRENT_HF_ENVIRONMENT}} --kube-context {{.CURRENT_HF_K8S_CONTEXT}} -f {{.HF_FILE_PATH}}"
 
 env:
-  HELMFILE_ENVIRONMENT: "{{.CURRENT_HF_ENVIRONMENT}}"
-  HELMFILE_TEMPDIR: "tmp/helmfile"
+  HELMFILE_TEMPDIR: "{{.ROOT_DIR}}/tmp/helmfile"
 
 tasks:
   info:
@@ -67,10 +66,15 @@ tasks:
     cmds:
       - "{{.CURRENT_HF_CLI_EXE}} --version"
 
+  lock:
+    desc: Create a .helmfile.lock file
+    cmds:
+      - "{{.CURRENT_HF_CLI_EXE}} deps {{.HF_CLI_OPTS}}"
+
   run:
     desc: Run a Helmfile command
     cmds:
-      - "{{.CURRENT_HF_CLI_EXE}} {{.CLI_ARGS}} --kube-context {{.CURRENT_HF_K8S_CONTEXT}} -f {{.HF_FILE_PATH}}"
+      - "{{.CURRENT_HF_CLI_EXE}} {{.CLI_ARGS}} {{.HF_CLI_OPTS}}"
 
   setup:
     desc: Setup Helmfile
