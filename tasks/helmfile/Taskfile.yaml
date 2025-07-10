@@ -23,7 +23,7 @@
 # - HF_K8S_CONTEXT - Kubernetes context
 # - HF_PROFILE     - Root directory for the active Helmfile configuration
 
-version: "3"
+version: "3.38"
 
 ## Variables ##
 
