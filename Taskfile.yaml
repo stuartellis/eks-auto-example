@@ -13,6 +13,7 @@ set: [pipefail]
 
 includes:
   hf: tasks/helmfile
+  pre: tasks/pre-commit
   tft: tasks/tft
 
 tasks:
