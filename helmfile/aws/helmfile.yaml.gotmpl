@@ -1,0 +1,23 @@
+bases:
+  - bases/defaults.yaml
+  - bases/repositories.yaml
+  - bases/environments.yaml
+
+templates:
+  values: &values
+    values:
+      - config/releases/{{ `{{ .Release.Name }}` }}/values.yaml.gotmpl
+
+lockFilePath: helmfile.{{ .Environment.Name }}.lock
+
+releases:
+  - name: canary
+    chart: ../../helm/charts/canary
+    namespace: canary
+    <<: *values
+
+  - name: podinfo
+    chart: podinfo/podinfo
+    namespace: podinfo
+    version: ">5.0.0"
+    <<: *values

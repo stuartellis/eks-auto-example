@@ -1,0 +1,10 @@
+# Helmfile: Environments with Template Values
+
+environments:
+  default:
+    values:
+      - environments/default/podinfo.yaml
+  dev:
+    values:
+      - environments/dev/canary.yaml
+      - environments/dev/podinfo.yaml
