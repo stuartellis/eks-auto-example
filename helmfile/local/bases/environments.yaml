@@ -1,0 +1,9 @@
+# Helmfile: Environments with Template Values
+
+environments:
+  default:
+    values:
+      - environments/default/podinfo.yaml
+  minikube:
+    values:
+      - environments/default/podinfo.yaml
