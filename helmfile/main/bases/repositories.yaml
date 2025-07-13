@@ -1,9 +1,0 @@
-# Helmfile: Helm Chart Repositories
-
-repositories:
-  - name: dockerregistry
-    url: registry-1.docker.io
-    oci: true
-
-  - name: podinfo
-    url: https://stefanprodan.github.io/podinfo
