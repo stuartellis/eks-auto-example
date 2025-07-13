@@ -30,9 +30,9 @@ version: "3.38"
 vars:
   # Defaults
   DEFAULT_HF_CLI_EXE: helmfile
-  DEFAULT_HF_ENVIRONMENT: local-mkube
+  DEFAULT_HF_ENVIRONMENT: minikube
   DEFAULT_HF_K8S_CONTEXT: minikube
-  DEFAULT_HF_PROFILE: main
+  DEFAULT_HF_PROFILE: local
 
   # Variables to override
 
@@ -52,7 +52,6 @@ vars:
   HF_ROOT_DIR: helmfile
 
   # Calculated variables
-
   HF_PROFILES_DIR: "{{.ROOT_DIR}}/{{.HF_ROOT_DIR}}"
   HF_FILE_PATH: "{{.HF_PROFILES_DIR}}/{{.CURRENT_HF_PROFILE}}/helmfile.yaml.gotmpl"
   HF_CLI_OPTS: "-e {{.CURRENT_HF_ENVIRONMENT}} --kube-context {{.CURRENT_HF_K8S_CONTEXT}} -f {{.HF_FILE_PATH}}"
@@ -61,6 +60,21 @@ env:
   HELMFILE_TEMPDIR: "{{.ROOT_DIR}}/tmp/helmfile"
 
 tasks:
+  apply:
+    desc: Apply the changes between the Helmfile and the cluster
+    cmds:
+      - "{{.CURRENT_HF_CLI_EXE}} apply {{.HF_CLI_OPTS}}"
+
+  destroy:
+    desc: Destroy the releases on the cluster
+    cmds:
+      - "{{.CURRENT_HF_CLI_EXE}} destroy {{.HF_CLI_OPTS}}"
+
+  diff:
+    desc: Show the diff between the Helmfile and the cluster
+    cmds:
+      - "{{.CURRENT_HF_CLI_EXE}} diff {{.HF_CLI_OPTS}}"
+
   info:
     desc: Helmfile version
     cmds:
@@ -81,3 +95,13 @@ tasks:
     cmds:
       - "mkdir -p {{.HELMFILE_TEMPDIR}}"
       - "{{.CURRENT_HF_CLI_EXE}} init"
+
+  sync:
+    desc: Force the state of the cluster to match the Helmfile
+    cmds:
+      - "{{.CURRENT_HF_CLI_EXE}} sync {{.HF_CLI_OPTS}}"
+
+  test:
+    desc: Runs the Helm tests for the charts
+    cmds:
+      - "{{.CURRENT_HF_CLI_EXE}} test {{.HF_CLI_OPTS}}"
