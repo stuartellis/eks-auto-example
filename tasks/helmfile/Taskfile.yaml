@@ -105,3 +105,33 @@ tasks:
     desc: Runs the Helm tests for the charts
     cmds:
       - "{{.CURRENT_HF_CLI_EXE}} test {{.HF_CLI_OPTS}}"
+
+  context:list:
+    desc: List Kubernetes profiles
+    aliases:
+      - contexts
+    silent: true
+    cmds:
+      - for:
+          var: K8S_CONTEXTS_LIST
+        cmd: echo "{{.ITEM}}"
+    vars:
+      K8S_CONTEXTS:
+        sh: kubectl config -o name get-contexts
+      K8S_CONTEXTS_LIST:
+        ref: 'splitList "\n" .K8S_CONTEXTS'
+
+  profile:list:
+    desc: List Helmfile profiles
+    aliases:
+      - profiles
+    silent: true
+    cmds:
+      - for:
+          var: HF_PROFILES_LIST
+        cmd: echo "{{.ITEM}}"
+    vars:
+      HF_PROFILES:
+        sh: ls -d {{.HF_PROFILES_DIR}}/*/ | xargs -n 1 basename
+      HF_PROFILES_LIST:
+        ref: 'splitList "\n" .HF_PROFILES'
