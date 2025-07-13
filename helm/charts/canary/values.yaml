@@ -5,3 +5,6 @@
 # This is to override the chart name.
 nameOverride: ""
 fullnameOverride: ""
+
+# Test input 1
+input1: ""

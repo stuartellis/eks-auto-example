@@ -11,6 +11,11 @@ templates:
 lockFilePath: helmfile.{{ .Environment.Name }}.lock
 
 releases:
+  - name: canary
+    chart: ../../helm/charts/canary
+    namespace: canary
+    <<: *values
+
   - name: podinfo
     chart: podinfo/podinfo
     namespace: podinfo

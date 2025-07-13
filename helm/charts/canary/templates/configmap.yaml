@@ -5,3 +5,4 @@ metadata:
   labels: {{- include "canary.labels" . | nindent 4 }}
 data:
   example1: foo
+  input1: {{ .Values.input1 }}
