@@ -1,0 +1,44 @@
+---
+# SPDX-FileCopyrightText: 2025-present Stuart Ellis <stuart@stuartellis.name>
+#
+# SPDX-License-Identifier: MIT
+#
+# These are Trivy tasks for the Task runner:
+#
+# https://taskfile.dev
+#
+# Requirements:
+#
+# - Any UNIX shell
+# - Trivy
+#
+# Example:
+#
+# task TRIVY:run -- status
+#
+# Set these variables to override the defaults:
+#
+# - TRIVY_K8S_CONTEXT - Kubernetes context
+
+version: "3.38"
+
+## Variables ##
+
+vars:
+  # Defaults
+  DEFAULT_TRIVY_CLI_EXE: trivy
+  DEFAULT_TRIVY_K8S_CONTEXT: minikube
+
+  # Variables to override
+
+  CURRENT_TRIVY_CLI_EXE:
+    ref: "default .DEFAULT_TRIVY_CLI_EXE .HELMFILE_CLI_EXE"
+
+  CURRENT_TRIVY_K8S_CONTEXT:
+    ref: "default .DEFAULT_TRIVY_K8S_CONTEXT .TRIVY_K8S_CONTEXT"
+
+tasks:
+  k8s:report:
+    desc: Generate report for Kubernetes cluster
+    cmds:
+      - "{{.CURRENT_TRIVY_CLI_EXE}} k8s --report summary {{.CURRENT_TRIVY_K8S_CONTEXT}}"

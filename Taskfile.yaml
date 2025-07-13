@@ -15,6 +15,7 @@ includes:
   hf: tasks/helmfile
   pre: tasks/pre-commit
   tft: tasks/tft
+  trivy: tasks/trivy
 
 tasks:
   default:
