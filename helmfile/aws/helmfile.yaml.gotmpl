@@ -18,6 +18,36 @@ releases:
 
   - name: podinfo
     chart: podinfo/podinfo
-    namespace: podinfo
     version: ">5.0.0"
-    <<: *values
+    values:
+
+     ingress:
+       hosts:
+         # Required: Host must match DNS record for load balancer in Route 53
+         - host: podinfo.amc-dev.stuartellis.org
+           paths:
+             - path: /
+               pathType: ImplementationSpecific
+
+      # - resources:
+      #     - apiVersion: networking.k8s.io/v1
+      #       kind: Ingress
+      #       metadata:
+      #         name: podinfo-ingress
+      #         namespace: podinfo
+      #         annotations:
+      #           # Public ALB
+      #           alb.ingress.kubernetes.io/scheme: internet-facing
+      #           # AWS resource tags for ALBs
+      #           alb.ingress.kubernetes.io/tags: "Environment=dev, Provisioner=Helmfile"
+      #           # HTTPS-only
+      #           alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":443}]'
+
+      #           # Required: DNS record for load balancer in Route 53
+      #           external-dns.alpha.kubernetes.io/hostname: podinfo.amc-dev.stuartellis.org
+      #           # Required: Name of ALB
+      #           alb.ingress.kubernetes.io/load-balancer-name: podinfo-dev-default
+      #           # Required: Network subnets for the load balancers
+      #           alb.ingress.kubernetes.io/subnets: subnet-07b4d67d, subnet-5ac87816, subnet-eca28485
+      #           # Required: TLS certificate in ACM
+      #           alb.ingress.kubernetes.io/certificate-arn: arn:aws:acm:eu-west-2:333594256635:certificate/886577e3-a1b2-4546-af37-ce6402becd13

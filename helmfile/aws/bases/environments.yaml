@@ -8,3 +8,7 @@ environments:
     values:
       - environments/dev/canary.yaml
       - environments/dev/podinfo.yaml
+  prod:
+    values:
+      - environments/prod/canary.yaml
+      - environments/prod/podinfo.yaml
