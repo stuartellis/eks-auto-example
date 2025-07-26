@@ -27,7 +27,7 @@ resource "aws_acm_certificate_validation" "amc_wildcard_cert_validation" {
 }
 
 resource "aws_ssm_parameter" "amc_wildcard_cert_arn" {
-  name  = "/config/${local.meta_product_name}/${local.meta_environment_name}/${local.meta_component_name}/${local.meta_edition}/acm/cert/wildcard/arn"
+  name  = "/config/${local.meta_product_name}/${local.meta_environment_name}/${local.meta_component_name}/${local.meta_edition_name}/acm/cert/wildcard/arn"
   type  = "String"
   value = aws_acm_certificate.amc_wildcard_cert.arn
 }

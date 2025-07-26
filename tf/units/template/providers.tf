@@ -11,12 +11,12 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Provisioner    = "Terraform"
-      Edition        = local.meta_edition
-      Environment    = local.meta_environment_name
-      Product        = local.meta_product_name
-      Component      = local.meta_component_name
-      InstanceSha256 = local.meta_instance_sha256_hash
+      Component   = local.meta_component_name
+      Edition     = local.meta_edition_name
+      EditionId   = local.edition_id
+      Environment = local.meta_environment_name
+      Product     = local.meta_product_name
+      Provisioner = "Terraform"
     }
   }
 }
