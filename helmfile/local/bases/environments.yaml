@@ -3,8 +3,5 @@
 environments:
   default:
     values:
+      - environments/default/canary.yaml
       - environments/default/podinfo.yaml
-  minikube:
-    values:
-      - environments/minikube/canary.yaml
-      - environments/minikube/podinfo.yaml

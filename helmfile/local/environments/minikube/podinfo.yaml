@@ -1,8 +1,0 @@
-podinfo:
-  replicaCount: 1
-  resources:
-    limits:
-      memory: 128Mi
-    requests:
-      cpu: 100m
-      memory: 32Mi
