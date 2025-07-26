@@ -16,6 +16,7 @@ includes:
   pre: tasks/pre-commit
   tft: tasks/tft
   trivy: tasks/trivy
+  update: tasks/update
 
 tasks:
   default:

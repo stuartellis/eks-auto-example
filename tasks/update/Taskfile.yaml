@@ -1,0 +1,21 @@
+---
+# SPDX-FileCopyrightText: 2025-present Stuart Ellis <stuart@stuartellis.name>
+#
+# SPDX-License-Identifier: MIT
+#
+# These are project maintenance tasks for the Task runner:
+#
+# https://taskfile.dev
+
+version: "3.38"
+
+tasks:
+  pre-commit:
+    desc: Update pre-commit
+    cmds:
+      - pre-commit autoupdate
+
+  tft:
+    desc: Update TF Tasks
+    cmds:
+      - copier update -A -a .copier-answers-tf-tasks.yaml .
