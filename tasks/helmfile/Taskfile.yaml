@@ -30,7 +30,7 @@ version: "3.38"
 vars:
   # Defaults
   DEFAULT_HF_CLI_EXE: helmfile
-  DEFAULT_HF_ENVIRONMENT: minikube
+  DEFAULT_HF_ENVIRONMENT: default
   DEFAULT_HF_K8S_CONTEXT: minikube
   DEFAULT_HF_PROFILE: local
 
@@ -107,7 +107,7 @@ tasks:
       - "{{.CURRENT_HF_CLI_EXE}} test {{.HF_CLI_OPTS}}"
 
   context:list:
-    desc: List Kubernetes profiles
+    desc: List Kubernetes contexts
     aliases:
       - contexts
     silent: true
