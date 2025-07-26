@@ -11,7 +11,7 @@ version: "3.38"
 
 tasks:
   pre-commit:
-    desc: Update pre-commit
+    desc: Update pre-commit hooks
     cmds:
       - pre-commit autoupdate
 
