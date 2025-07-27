@@ -75,11 +75,6 @@ tasks:
     cmds:
       - "{{.CURRENT_HF_CLI_EXE}} diff {{.HF_CLI_OPTS}}"
 
-  info:
-    desc: Helmfile version
-    cmds:
-      - "{{.CURRENT_HF_CLI_EXE}} --version"
-
   lock:
     desc: Create a .helmfile.lock file
     cmds:
@@ -96,7 +91,7 @@ tasks:
       - "{{.CURRENT_HF_CLI_EXE}} sync {{.HF_CLI_OPTS}}"
 
   test:
-    desc: Runs the Helm tests for the charts
+    desc: Runs the post-deployment tests provided in the Helm charts
     cmds:
       - "{{.CURRENT_HF_CLI_EXE}} test {{.HF_CLI_OPTS}}"
 
