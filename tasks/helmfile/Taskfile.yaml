@@ -90,12 +90,6 @@ tasks:
     cmds:
       - "{{.CURRENT_HF_CLI_EXE}} {{.CLI_ARGS}} {{.HF_CLI_OPTS}}"
 
-  setup:
-    desc: Setup Helmfile
-    cmds:
-      - "mkdir -p {{.HELMFILE_TEMPDIR}}"
-      - "{{.CURRENT_HF_CLI_EXE}} init"
-
   sync:
     desc: Force the state of the cluster to match the Helmfile
     cmds:

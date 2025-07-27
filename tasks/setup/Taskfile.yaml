@@ -1,0 +1,37 @@
+---
+# SPDX-FileCopyrightText: 2025-present Stuart Ellis <stuart@stuartellis.name>
+#
+# SPDX-License-Identifier: MIT
+#
+# These are project setup tasks for the Task runner:
+#
+# https://taskfile.dev
+
+version: "3.38"
+
+tasks:
+  default:
+    cmds:
+      - task: all
+
+  all:
+    desc: Set up all of the tools
+    cmds:
+      - task: pre-commit
+      - task: terraform
+      - task: helmfile
+
+  helmfile:
+    desc: Set up Helmfile
+    cmds:
+      - "helmfile init"
+
+  pre-commit:
+    desc: Install pre-commit hooks
+    cmds:
+      - pre-commit install
+
+  terraform:
+    desc: Install the required version of Terraform
+    cmds:
+      - tenv terraform install
