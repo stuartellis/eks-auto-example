@@ -24,11 +24,12 @@ tasks:
   helmfile:
     desc: Set up Helmfile
     cmds:
-      - "helmfile init"
+      - helmfile init
 
   pre-commit:
-    desc: Install pre-commit hooks
+    desc: Install pre-commit tool and hooks
     cmds:
+      - pipx install pre-commit
       - pre-commit install
 
   terraform:
