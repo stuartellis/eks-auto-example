@@ -1,0 +1,25 @@
+# Default values for eks-nodes-minimal.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+# Name of the NodeClass
+nodeClassName: "private-compute"
+
+# EC2 security group ID for the NodeClass
+nodeClassSecurityGroupId: "sg-009b24b7dcc93c482"
+
+# Ephemeral Storage size for the NodeClass
+nodeClassEphemeralStorageSize: "80Gi"
+
+# Name of the Node Pool
+nodePoolName: "private-compute"
+
+# CPU limit for the Node Pool
+nodePoolCpuLimit: "1000"
+
+# Memory limit for the Node Pool
+nodePoolMemoryLimit: 1000Gi

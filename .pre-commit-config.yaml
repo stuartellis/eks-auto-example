@@ -40,6 +40,10 @@ repos:
     hooks:
       - id: markdownlint-cli2
         stages: [pre-commit]
+  - repo: https://github.com/gruntwork-io/pre-commit
+    rev: "v0.1.30"
+    hooks:
+      - id: helmlint
   - repo: https://github.com/adrienverge/yamllint.git
     rev: "v1.37.1"
     hooks:
@@ -51,3 +55,17 @@ repos:
     hooks:
       - id: check-taskfile
         stages: [pre-commit]
+  - repo: local
+    hooks:
+      - id: trivy-config
+        name: trivy config
+        entry: trivy
+        language: system
+        args: [config, --exit-code, "1", .]
+        pass_filenames: false
+      - id: trivy-fs
+        name: trivy fs
+        entry: trivy
+        language: system
+        args: [fs, --exit-code, "1", .]
+        pass_filenames: false

@@ -1,0 +1,12 @@
+apiVersion: eks.amazonaws.com/v1
+kind: NodeClass
+metadata:
+  name: {{ .Values.nodeClassName }}
+spec:
+  subnetSelectorTerms:
+    - tags:
+        kubernetes.io/role/elb: "1"
+  securityGroupSelectorTerms:
+    - id: {{ .Values.nodeClassSecurityGroupId }}
+  ephemeralStorage:
+    size: {{ .Values.nodeClassEphemeralStorageSize }}
