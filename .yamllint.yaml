@@ -10,13 +10,6 @@
 # Begin with yamllint default settings
 extends: default
 
-# File extensions
-yaml-files:
-  - "*.yaml.gotmpl"
-  - "*.yaml"
-  - "*.yml"
-  - ".yamllint"
-
 rules:
   # Rules for curly braces: {}
   braces:
