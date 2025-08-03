@@ -49,7 +49,7 @@ repos:
     hooks:
       - id: yamllint
         stages: [pre-commit]
-        args: [--strict]
+        args: ["--strict"]
   - repo: https://github.com/python-jsonschema/check-jsonschema
     rev: "0.33.2"
     hooks:
@@ -60,12 +60,14 @@ repos:
       - id: trivy-config
         name: trivy config
         entry: trivy
+        stages: [pre-commit]
         language: system
         args: [config, --exit-code, "1", .]
         pass_filenames: false
       - id: trivy-fs
         name: trivy fs
         entry: trivy
+        stages: [pre-commit]
         language: system
         args: [fs, --exit-code, "1", .]
         pass_filenames: false

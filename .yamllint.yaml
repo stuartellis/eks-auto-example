@@ -10,6 +10,9 @@
 # Begin with yamllint default settings
 extends: default
 
+ignore: |
+  helm/charts/
+
 rules:
   # Rules for curly braces: {}
   braces:
