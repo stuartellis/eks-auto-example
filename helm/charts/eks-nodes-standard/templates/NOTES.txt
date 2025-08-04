@@ -1,0 +1,1 @@
+This deploys a ConfigMap called {{ include "eks-nodes-standard.fullname" . }}.

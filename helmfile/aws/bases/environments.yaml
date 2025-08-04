@@ -3,12 +3,15 @@
 environments:
   default:
     values:
+      - environments/default/eks-nodes-standard.yaml
       - environments/default/podinfo.yaml
   dev:
     values:
       - environments/dev/canary.yaml
+      - environments/dev/eks-nodes-standard.yaml
       - environments/dev/podinfo.yaml
   prod:
     values:
       - environments/prod/canary.yaml
+      - environments/prod/eks-nodes-standard.yaml
       - environments/prod/podinfo.yaml

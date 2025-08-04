@@ -6,7 +6,7 @@ spec:
   template:
     metadata:
       labels:
-        billing-team: my-team
+        product: eks-auto-example
     spec:
       nodeClassRef:
         group: eks.amazonaws.com

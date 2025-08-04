@@ -1,4 +1,4 @@
-# Default values for eks-nodes-minimal.
+# Default values for eks-nodes-standard.
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
@@ -7,7 +7,7 @@ nameOverride: ""
 fullnameOverride: ""
 
 # Name of the NodeClass
-nodeClassName: "private-compute"
+nodeClassName: "example-class"
 
 # EC2 security group ID for the NodeClass
 nodeClassSecurityGroupId: "sg-009b24b7dcc93c482"
@@ -16,7 +16,7 @@ nodeClassSecurityGroupId: "sg-009b24b7dcc93c482"
 nodeClassEphemeralStorageSize: "80Gi"
 
 # Name of the Node Pool
-nodePoolName: "private-compute"
+nodePoolName: "example-compute"
 
 # CPU limit for the Node Pool
 nodePoolCpuLimit: "1000"

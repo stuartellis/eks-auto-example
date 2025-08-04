@@ -1,4 +1,5 @@
-bases
+---
+bases:
   - bases/defaults.yaml
   - bases/repositories.yaml
   - bases/environments.yaml
@@ -14,10 +15,12 @@ releases:
   - name: canary
     chart: ../../helm/charts/canary
     namespace: canary
+    installed: true
     <<: *values
 
   - name: podinfo
     chart: podinfo/podinfo
     namespace: podinfo
     version: ">5.0.0"
+    installed: true
     <<: *values

@@ -1,6 +1,6 @@
 apiVersion: v2
-name: eks-nodes-minimal
-description: Minimal EKS node configurations
+name: eks-nodes-standard
+description: Standard EKS node configurations
 
 # A chart can be either an 'application' or a 'library' chart.
 #

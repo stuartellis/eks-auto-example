@@ -1,7 +1,7 @@
 {{/*
 Expand the name of the chart.
 */}}
-{{- define "eks-nodes-minimal.name" -}}
+{{- define "eks-nodes-standard.name" -}}
 {{- default .Chart.Name .Values.nameOverride | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
@@ -10,7 +10,7 @@ Create a default fully qualified app name.
 We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 If release name contains chart name it will be used as a full name.
 */}}
-{{- define "eks-nodes-minimal.fullname" -}}
+{{- define "eks-nodes-standard.fullname" -}}
 {{- if .Values.fullnameOverride }}
 {{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" }}
 {{- else }}
@@ -26,16 +26,16 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Create chart name and version as used by the chart label.
 */}}
-{{- define "eks-nodes-minimal.chart" -}}
+{{- define "eks-nodes-standard.chart" -}}
 {{- printf "%s-%s" .Chart.Name .Chart.Version | replace "+" "_" | trunc 63 | trimSuffix "-" }}
 {{- end }}
 
 {{/*
 Common labels
 */}}
-{{- define "eks-nodes-minimal.labels" -}}
-helm.sh/chart: {{ include "eks-nodes-minimal.chart" . }}
-{{ include "eks-nodes-minimal.selectorLabels" . }}
+{{- define "eks-nodes-standard.labels" -}}
+helm.sh/chart: {{ include "eks-nodes-standard.chart" . }}
+{{ include "eks-nodes-standard.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -45,7 +45,7 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{/*
 Selector labels
 */}}
-{{- define "eks-nodes-minimal.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "eks-nodes-minimal.name" . }}
+{{- define "eks-nodes-standard.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "eks-nodes-standard.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}

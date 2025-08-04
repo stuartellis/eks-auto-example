@@ -16,18 +16,23 @@ releases:
     namespace: canary
     <<: *values
 
-  - name: podinfo
-    chart: podinfo/podinfo
-    version: ">5.0.0"
-    values:
+  - name: eks-nodes-standard
+    chart: ../../helm/charts/eks-nodes-standard
+    namespace: default
+    <<: *values
 
-     ingress:
-       hosts:
-         # Required: Host must match DNS record for load balancer in Route 53
-         - host: podinfo.amc-dev.stuartellis.org
-           paths:
-             - path: /
-               pathType: ImplementationSpecific
+  # - name: podinfo
+  #   chart: podinfo/podinfo
+  #   version: ">5.0.0"
+  #   values:
+
+  #    ingress:
+  #      hosts:
+  #        # Required: Host must match DNS record for load balancer in Route 53
+  #        - host: podinfo.amc-dev.stuartellis.org
+  #          paths:
+  #            - path: /
+  #              pathType: ImplementationSpecific
 
       # - resources:
       #     - apiVersion: networking.k8s.io/v1
