@@ -16,7 +16,7 @@ module "primary_eks_cluster" {
 
   cluster_compute_config = {
     enabled    = true
-    node_pools = ["general-purpose", "system"]
+    node_pools = ["system"]
   }
 
   vpc_id     = var.primary_eks_cluster_config["vpc_id"]
