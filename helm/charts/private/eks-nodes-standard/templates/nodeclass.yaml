@@ -3,10 +3,11 @@ kind: NodeClass
 metadata:
   name: {{ .Values.nodeClassName }}
 spec:
+  role: {{ .Values.nodeClassIamRole }}
   subnetSelectorTerms:
     - tags:
         kubernetes.io/role/elb: "1"
   securityGroupSelectorTerms:
     - id: {{ .Values.nodeClassSecurityGroupId }}
-  ephemeralStorage:
-    size: {{ .Values.nodeClassEphemeralStorageSize }}
+  # ephemeralStorage:
+  #   size: {{ .Values.nodeClassEphemeralStorageSize }}

@@ -6,14 +6,20 @@
 nameOverride: ""
 fullnameOverride: ""
 
+# Label
+productLabel: "NONE"
+
 # Name of the NodeClass
 nodeClassName: "example-class"
+
+# IAM roles for the NodeClass
+nodeClassIamRole: ""
 
 # EC2 security group ID for the NodeClass
 nodeClassSecurityGroupId: "sg-009b24b7dcc93c482"
 
 # Ephemeral Storage size for the NodeClass
-nodeClassEphemeralStorageSize: "80Gi"
+nodeClassEphemeralStorageSize: "8Gi"
 
 # Name of the Node Pool
 nodePoolName: "example-compute"

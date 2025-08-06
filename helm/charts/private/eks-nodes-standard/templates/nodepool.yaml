@@ -6,7 +6,7 @@ spec:
   template:
     metadata:
       labels:
-        product: eks-auto-example
+        product: {{ .Values.productLabel }}
     spec:
       nodeClassRef:
         group: eks.amazonaws.com

@@ -1,0 +1,1 @@
+This deploys a Ingress called {{ include "eks-ingress.fullname" . }}.

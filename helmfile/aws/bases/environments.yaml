@@ -9,6 +9,7 @@ environments:
     values:
       - environments/dev/canary.yaml
       - environments/dev/eks-nodes-standard.yaml
+      - environments/dev/podinfo-ingress-alb.yaml
       - environments/dev/podinfo.yaml
   prod:
     values:

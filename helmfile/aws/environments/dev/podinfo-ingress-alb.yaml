@@ -1,0 +1,12 @@
+ingressName: pod-info
+
+albScheme: internet-facing
+albTags: "Environment=dev, Provisioner=Helmfile"
+albPorts: '[{"HTTPS":443}]'
+albHostname: podinfo.amc-dev.stuartellis.org
+albLoadBalancerName: podinfo-dev-default
+albSubnets: subnet-07b4d67d, subnet-5ac87816, subnet-eca28485
+albCertificateArn: arn:aws:acm:eu-west-2:333594256635:certificate/886577e3-a1b2-4546-af37-ce6402becd13
+
+serviceName: podinfo
+servicePort: 9898

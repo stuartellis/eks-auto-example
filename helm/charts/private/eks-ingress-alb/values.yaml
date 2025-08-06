@@ -1,0 +1,34 @@
+# Default values for eks-ingress.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+# This is to override the chart name.
+nameOverride: ""
+fullnameOverride: ""
+
+# Base name for Ingress objects
+ingressName: "example"
+
+# Name for Service
+serviceName: "example"
+
+# ALB type
+albScheme: internet-facing
+
+# AWS resource tags for ALBs
+albTags: "Provisioner=Helm"
+
+# Ports for ALB
+albHttpsPort: "443"
+
+# DNS record for load balancer in Route 53
+albHostname: ""
+
+# Name of ALB
+albLoadBalancerName: ""
+
+# Network subnets for the load balancers
+albSubnets: ""
+
+# TLS certificate in ACM
+albCertificateArn: ""

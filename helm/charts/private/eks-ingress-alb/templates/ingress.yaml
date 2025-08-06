@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.ingressName }}
+  annotations:
+    alb.ingress.kubernetes.io/tags: {{ .Values.albTags }}
+    alb.ingress.kubernetes.io/scheme: {{ .Values.albScheme }}
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTPS":{{ .Values.albHttpsPort }}}]'
+    external-dns.alpha.kubernetes.io/hostname: {{ .Values.albHostname }}
+    alb.ingress.kubernetes.io/load-balancer-name: {{ .Values.albLoadBalancerName }}
+    alb.ingress.kubernetes.io/subnets: {{ .Values.albSubnets }}
+    alb.ingress.kubernetes.io/certificate-arn: {{ .Values.albCertificateArn }}
+spec:
+  ingressClassName: "{{ .Values.ingressName }}-class"
+  rules:
+    - http:
+        paths:
+          - path: /*
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ .Values.serviceName }}
+                port:
+                  number: 9898
