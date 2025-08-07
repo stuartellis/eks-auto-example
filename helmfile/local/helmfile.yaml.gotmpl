@@ -13,7 +13,7 @@ lockFilePath: helmfile.{{ .Environment.Name }}.lock
 
 releases:
   - name: canary
-    chart: ../../helm/charts/canary
+    chart: ../../helm/charts/private/canary
     namespace: canary
     installed: true
     <<: *values
