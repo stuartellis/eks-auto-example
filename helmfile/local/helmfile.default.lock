@@ -1,7 +1,10 @@
-version: v1.1.3
+version: v1.1.4
 dependencies:
+  - name: base
+    repository: https://istio-release.storage.googleapis.com/charts
+    version: 1.26.3
   - name: podinfo
     repository: https://stefanprodan.github.io/podinfo
     version: 6.9.1
-digest: sha256:c64d688c24acc72c13fb26cce43b44ab42f3e69be0171a0c384b714ecfb4ea87
-generated: "2025-08-01T00:05:45.134506613+01:00"
+digest: sha256:e5c42ff724ed12202472b263d8c253b9323c2b2c774b888e32fb9bccc083ad31
+generated: "2025-08-09T17:42:01.469741711+01:00"

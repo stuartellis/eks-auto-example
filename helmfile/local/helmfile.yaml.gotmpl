@@ -18,6 +18,13 @@ releases:
     installed: true
     <<: *values
 
+  - name: istio-base
+    chart: istio/base
+    namespace: istio-system
+    version: ">1.26.0"
+    installed: true
+    <<: *values
+
   - name: podinfo
     chart: podinfo/podinfo
     namespace: podinfo

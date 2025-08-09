@@ -5,5 +5,8 @@ repositories:
     url: registry-1.docker.io
     oci: true
 
+  - name: istio
+    url: https://istio-release.storage.googleapis.com/charts
+
   - name: podinfo
     url: https://stefanprodan.github.io/podinfo
