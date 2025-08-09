@@ -19,9 +19,9 @@
 #
 # Set these variables to override the defaults:
 #
-# - HF_ENVIRONMENT - Helmfile environment
-# - HF_K8S_CONTEXT - Kubernetes context
-# - HF_PROFILE     - Root directory for the active Helmfile configuration
+# - HELMFILE_ENVIRONMENT - Helmfile environment
+# - HELMFILE_K8S_CONTEXT - Kubernetes context
+# - HELMFILE_PROFILE     - Root directory for the active Helmfile configuration
 
 version: "3.38"
 
@@ -29,32 +29,32 @@ version: "3.38"
 
 vars:
   # Defaults
-  DEFAULT_HF_CLI_EXE: helmfile
-  DEFAULT_HF_ENVIRONMENT: default
-  DEFAULT_HF_K8S_CONTEXT: minikube
-  DEFAULT_HF_PROFILE: local
+  DEFAULT_HELMFILE_CLI_EXE: helmfile
+  DEFAULT_HELMFILE_ENVIRONMENT: default
+  DEFAULT_HELMFILE_K8S_CONTEXT: minikube
+  DEFAULT_HELMFILE_PROFILE: local
 
   # Variables to override
 
-  CURRENT_HF_CLI_EXE:
-    ref: "default .DEFAULT_HF_CLI_EXE .HELMFILE_CLI_EXE"
+  CURRENT_HELMFILE_CLI_EXE:
+    ref: "default .DEFAULT_HELMFILE_CLI_EXE .HELMFILE_CLI_EXE"
 
-  CURRENT_HF_PROFILE:
-    ref: "default .DEFAULT_HF_PROFILE .HF_PROFILE"
+  CURRENT_HELMFILE_PROFILE:
+    ref: "default .DEFAULT_HELMFILE_PROFILE .HELMFILE_PROFILE"
 
-  CURRENT_HF_ENVIRONMENT:
-    ref: "default .DEFAULT_HF_ENVIRONMENT .HF_ENVIRONMENT"
+  CURRENT_HELMFILE_ENVIRONMENT:
+    ref: "default .DEFAULT_HELMFILE_ENVIRONMENT .HELMFILE_ENVIRONMENT"
 
-  CURRENT_HF_K8S_CONTEXT:
-    ref: "default .DEFAULT_HF_K8S_CONTEXT .HF_K8S_CONTEXT"
+  CURRENT_HELMFILE_K8S_CONTEXT:
+    ref: "default .DEFAULT_HELMFILE_K8S_CONTEXT .HELMFILE_K8S_CONTEXT"
 
   # Pre-set variables
-  HF_ROOT_DIR: helmfile
+  HELMFILE_ROOT_DIR: helmfile
 
   # Calculated variables
-  HF_PROFILES_DIR: "{{.ROOT_DIR}}/{{.HF_ROOT_DIR}}"
-  HF_FILE_PATH: "{{.HF_PROFILES_DIR}}/{{.CURRENT_HF_PROFILE}}/helmfile.yaml.gotmpl"
-  HF_CLI_OPTS: "-e {{.CURRENT_HF_ENVIRONMENT}} --kube-context {{.CURRENT_HF_K8S_CONTEXT}} -f {{.HF_FILE_PATH}}"
+  HELMFILE_PROFILES_DIR: "{{.ROOT_DIR}}/{{.HELMFILE_ROOT_DIR}}"
+  HELMFILE_FILE_PATH: "{{.HELMFILE_PROFILES_DIR}}/{{.CURRENT_HELMFILE_PROFILE}}/helmfile.yaml.gotmpl"
+  HELMFILE_CLI_OPTS: "-e {{.CURRENT_HELMFILE_ENVIRONMENT}} --kube-context {{.CURRENT_HELMFILE_K8S_CONTEXT}} -f {{.HELMFILE_FILE_PATH}}"
 
 env:
   HELMFILE_TEMPDIR: "{{.ROOT_DIR}}/tmp/helmfile"
@@ -63,37 +63,37 @@ tasks:
   apply:
     desc: Apply the changes between the Helmfile and the cluster
     cmds:
-      - "{{.CURRENT_HF_CLI_EXE}} apply {{.HF_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} apply {{.HELMFILE_CLI_OPTS}}"
 
   destroy:
     desc: Destroy the releases on the cluster
     cmds:
-      - "{{.CURRENT_HF_CLI_EXE}} destroy {{.HF_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} destroy {{.HELMFILE_CLI_OPTS}}"
 
   diff:
     desc: Show the diff between the Helmfile and the cluster
     cmds:
-      - "{{.CURRENT_HF_CLI_EXE}} diff {{.HF_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} diff {{.HELMFILE_CLI_OPTS}}"
 
   lock:
     desc: Create a .helmfile.lock file
     cmds:
-      - "{{.CURRENT_HF_CLI_EXE}} deps {{.HF_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} deps {{.HELMFILE_CLI_OPTS}}"
 
   run:
     desc: Run a Helmfile command
     cmds:
-      - "{{.CURRENT_HF_CLI_EXE}} {{.CLI_ARGS}} {{.HF_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} {{.CLI_ARGS}} {{.HELMFILE_CLI_OPTS}}"
 
   sync:
     desc: Force the state of the cluster to match the Helmfile
     cmds:
-      - "{{.CURRENT_HF_CLI_EXE}} sync {{.HF_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} sync {{.HELMFILE_CLI_OPTS}}"
 
   test:
     desc: Runs the post-deployment tests provided in the Helm charts
     cmds:
-      - "{{.CURRENT_HF_CLI_EXE}} test {{.HF_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} test {{.HELMFILE_CLI_OPTS}}"
 
   context:list:
     desc: List Kubernetes contexts
@@ -117,10 +117,10 @@ tasks:
     silent: true
     cmds:
       - for:
-          var: HF_PROFILES_LIST
+          var: HELMFILE_PROFILES_LIST
         cmd: echo "{{.ITEM}}"
     vars:
-      HF_PROFILES:
-        sh: ls -d {{.HF_PROFILES_DIR}}/*/ | xargs -n 1 basename
-      HF_PROFILES_LIST:
-        ref: 'splitList "\n" .HF_PROFILES'
+      HELMFILE_PROFILES:
+        sh: ls -d {{.HELMFILE_PROFILES_DIR}}/*/ | xargs -n 1 basename
+      HELMFILE_PROFILES_LIST:
+        ref: 'splitList "\n" .HELMFILE_PROFILES'
