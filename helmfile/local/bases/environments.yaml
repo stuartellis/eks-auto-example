@@ -5,4 +5,5 @@ environments:
     values:
       - environments/default/canary.yaml
       - environments/default/istio-base.yaml
+      - environments/default/kiali-operator.yaml
       - environments/default/podinfo.yaml

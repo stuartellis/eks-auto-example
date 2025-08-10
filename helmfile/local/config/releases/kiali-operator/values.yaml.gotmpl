@@ -1,0 +1,6 @@
+cr:
+  create: {{ .Values.kiali_operator.cr.create }}
+  namespace: {{ .Values.kiali_operator.cr.namespace }}
+  spec:
+    auth:
+      strategy: {{ .Values.kiali_operator.cr.spec.auth.strategy }}

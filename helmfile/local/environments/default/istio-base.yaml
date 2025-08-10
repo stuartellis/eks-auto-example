@@ -1,0 +1,3 @@
+istio_base:
+  global:
+    platform: minikube

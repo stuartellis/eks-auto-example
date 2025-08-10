@@ -15,7 +15,7 @@ releases:
   - name: canary
     chart: ../../helm/charts/private/canary
     namespace: canary
-    installed: true
+    installed: false   
     <<: *values
 
   - name: istio-base
@@ -23,11 +23,42 @@ releases:
     namespace: istio-system
     version: ">1.26.0"
     installed: true
+    wait: true
+    <<: *values
+    
+  - name: istiod
+    chart: istio/istiod
+    namespace: istio-system
+    version: ">1.26.0"
+    installed: true
+    needs:
+      - istio-system/istio-base
+    <<: *values
+
+  - name: istio-ingress
+    chart: istio/gateway
+    namespace: istio-system
+    version: ">1.26.0"
+    installed: false
+    needs:
+      - istio-system/istio-base
+      - istio-system/istiod
+    <<: *values
+
+  - name: kiali-operator
+    chart: kiali/kiali-operator
+    namespace: kiali-operator
+    version: ">2.0.0"
+    needs:
+      - istio-system/istio-base
+      - istio-system/istiod
+    installed: true
+    wait: true
     <<: *values
 
   - name: podinfo
     chart: podinfo/podinfo
     namespace: podinfo
     version: ">5.0.0"
-    installed: true
+    installed: false
     <<: *values
