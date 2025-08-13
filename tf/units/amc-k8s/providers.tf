@@ -20,3 +20,11 @@ provider "aws" {
     }
   }
 }
+
+provider "kubectl" {
+  host                   = module.primary_eks_cluster.cluster_endpoint
+  cluster_ca_certificate = base64decode(module.primary_eks_cluster.cluster_certificate_authority_data)
+  token                  = data.aws_eks_cluster_auth.primary.token
+  load_config_file       = false
+  apply_retry_count      = 5
+}

@@ -20,7 +20,7 @@ releases:
   - name: eks-nodes-standard
     chart: ../../helm/charts/private/eks-nodes-standard
     namespace: default
-    installed: true
+    installed: false
     <<: *values
 
   - name: podinfo
@@ -28,14 +28,12 @@ releases:
     namespace: podinfo
     version: ">5.0.0"
     installed: true
-    needs:
-     - default/eks-nodes-standard
     <<: *values
 
   - name: podinfo-ingress-alb
     chart: ../../helm/charts/private/eks-ingress-alb
     namespace: podinfo
-    installed: true
+    installed: false
     needs:
      - podinfo/podinfo
     <<: *values

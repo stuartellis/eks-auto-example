@@ -5,7 +5,7 @@
 
 module "primary_eks_cluster" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 20.35"
+  version = "~> 20.37.2"
 
   cluster_name    = local.primary_eks_cluster_name
   cluster_version = var.primary_eks_cluster_config["k8s_version"]
@@ -21,6 +21,11 @@ module "primary_eks_cluster" {
 
   vpc_id     = var.primary_eks_cluster_config["vpc_id"]
   subnet_ids = var.primary_eks_cluster_config["subnet_ids"]
+
+  kms_key_aliases                 = ["${local.primary_eks_cluster_name}-nodes"]
+  kms_key_deletion_window_in_days = 7
+  kms_key_description             = local.primary_eks_cluster_name
+  kms_key_source_policy_documents = ["${local.primary_eks_cluster_name}-nodes-kms"]
 
   # Adds the current caller identity as an administrator with a cluster access entry
   authentication_mode                      = "API"
@@ -56,8 +61,10 @@ module "primary_eks_cluster" {
   tags = {
     Name = local.primary_eks_cluster_name
   }
+
+  depends_on = [aws_iam_policy.primary_eks_nodes_kms]
 }
 
-data "aws_eks_cluster_auth" "amc" {
+data "aws_eks_cluster_auth" "primary" {
   name = module.primary_eks_cluster.cluster_name
 }
