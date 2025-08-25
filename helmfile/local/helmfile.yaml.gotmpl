@@ -14,12 +14,16 @@ lockFilePath: helmfile.{{ .Environment.Name }}.lock
 releases:
   - name: canary
     chart: ../../helm/charts/private/canary
+    labels:
+      app: canary
     namespace: canary
     installed: true
     <<: *values
 
   - name: podinfo
     chart: podinfo/podinfo
+    labels:
+      app: podinfo
     namespace: podinfo
     version: ">5.0.0"
     installed: true

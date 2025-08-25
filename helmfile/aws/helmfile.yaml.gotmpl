@@ -11,20 +11,26 @@ templates:
 lockFilePath: helmfile.{{ .Environment.Name }}.lock
 
 releases:
-  - name: canary
-    chart: ../../helm/charts/private/canary
-    namespace: canary
-    installed: false
-    <<: *values
-
   - name: eks-nodes-standard
     chart: ../../helm/charts/private/eks-nodes-standard
+    labels:
+      app: eks-nodes-standard
     namespace: default
     installed: true
     <<: *values
 
+  - name: canary
+    chart: ../../helm/charts/private/canary
+    labels:
+      app: canary
+    namespace: canary
+    installed: false
+    <<: *values
+
   - name: podinfo
     chart: podinfo/podinfo
+    labels:
+      app: podinfo
     namespace: podinfo
     version: ">5.0.0"
     installed: true
@@ -34,6 +40,8 @@ releases:
 
   - name: podinfo-ingress-alb
     chart: ../../helm/charts/private/eks-ingress-alb
+    labels:
+      app: podinfo
     namespace: podinfo
     installed: true
     needs:

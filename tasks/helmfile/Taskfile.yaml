@@ -57,43 +57,57 @@ vars:
   HELMFILE_CLI_OPTS: "-e {{.CURRENT_HELMFILE_ENVIRONMENT}} --kube-context {{.CURRENT_HELMFILE_K8S_CONTEXT}} -f {{.HELMFILE_FILE_PATH}}"
 
 env:
-  HELMFILE_TEMPDIR: "{{.ROOT_DIR}}/tmp/helmfile"
+  HELMFILE_TEMPDIR: "{{.ROOT_DIR}}/tmp/helmfile/tmp"
 
 tasks:
   apply:
     desc: Apply the changes between the Helmfile and the cluster
     cmds:
-      - "{{.CURRENT_HELMFILE_CLI_EXE}} apply {{.HELMFILE_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} apply {{.HELMFILE_CLI_OPTS}} {{.CLI_ARGS}}"
+
+  debug:
+    desc: Generate the YAML manifest, with debug messages
+    cmds:
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} template --debug {{.HELMFILE_CLI_OPTS}} {{.CLI_ARGS}}"
 
   destroy:
     desc: Destroy the releases on the cluster
     cmds:
-      - "{{.CURRENT_HELMFILE_CLI_EXE}} destroy {{.HELMFILE_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} destroy {{.HELMFILE_CLI_OPTS}} {{.CLI_ARGS}}"
 
   diff:
     desc: Show the diff between the Helmfile and the cluster
     cmds:
-      - "{{.CURRENT_HELMFILE_CLI_EXE}} diff {{.HELMFILE_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} diff {{.HELMFILE_CLI_OPTS}} {{.CLI_ARGS}}"
 
   lock:
     desc: Create a .helmfile.lock file
+    aliases:
+      - deps
     cmds:
-      - "{{.CURRENT_HELMFILE_CLI_EXE}} deps {{.HELMFILE_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} deps {{.HELMFILE_CLI_OPTS}} {{.CLI_ARGS}}"
+
+  render:
+    desc: Generate the YAML manifest
+    aliases:
+      - template
+    cmds:
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} template {{.HELMFILE_CLI_OPTS}} {{.CLI_ARGS}}"
 
   run:
     desc: Run a Helmfile command
     cmds:
-      - "{{.CURRENT_HELMFILE_CLI_EXE}} {{.CLI_ARGS}} {{.HELMFILE_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} {{.CLI_ARGS}} {{.HELMFILE_CLI_OPTS}} {{.CLI_ARGS}}"
 
   sync:
     desc: Force the state of the cluster to match the Helmfile
     cmds:
-      - "{{.CURRENT_HELMFILE_CLI_EXE}} sync {{.HELMFILE_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} sync {{.HELMFILE_CLI_OPTS}} {{.CLI_ARGS}}"
 
   test:
     desc: Runs the post-deployment tests provided in the Helm charts
     cmds:
-      - "{{.CURRENT_HELMFILE_CLI_EXE}} test {{.HELMFILE_CLI_OPTS}}"
+      - "{{.CURRENT_HELMFILE_CLI_EXE}} test {{.HELMFILE_CLI_OPTS}} {{.CLI_ARGS}}"
 
   context:list:
     desc: List Kubernetes contexts

@@ -3,7 +3,7 @@ productLabel: "example"
 nodeClassIamRole: "dev-amc-k8s-210433fc-eks-auto-20250705220056092400000006"
 nodeClassName: "example-dev-class"
 nodeClassSecurityGroupId: "sg-009b24b7dcc93c482"
-nodeClassEphemeralStorageSize: "8Gi"
+nodeClassEphemeralStorageSize: "80Gi"
 
 nodePoolName: "example-compute"
 nodePoolCpuLimit: "1000"
