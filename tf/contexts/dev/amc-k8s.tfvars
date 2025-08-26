@@ -17,6 +17,8 @@ primary_eks_cluster_config = {
   # Required: Kubernetes version
   k8s_version = "1.32"
 
+  kms_key_arn = "arn:aws:kms:eu-west-2:333594256635:key/4b3bb88e-196f-4800-8af2-2bb75a715cfc"
+
   # Required: Subnets for the EKS cluster
   subnet_ids = ["subnet-07b4d67d", "subnet-5ac87816", "subnet-eca28485", ]
 

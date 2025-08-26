@@ -5,7 +5,7 @@
 
 module "primary_eks_cluster" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "~> 20.35"
+  version = "~> 20.37.2"
 
   cluster_name    = local.primary_eks_cluster_name
   cluster_version = var.primary_eks_cluster_config["k8s_version"]
@@ -16,11 +16,21 @@ module "primary_eks_cluster" {
 
   cluster_compute_config = {
     enabled    = true
-    node_pools = ["system"]
+    node_pools = []
   }
+  node_iam_role_name = "${local.primary_eks_cluster_name}-nodes"
 
   vpc_id     = var.primary_eks_cluster_config["vpc_id"]
   subnet_ids = var.primary_eks_cluster_config["subnet_ids"]
+
+  # KMS
+  cloudwatch_log_group_kms_key_id = var.primary_eks_cluster_config["kms_key_arn"]
+  create_kms_key                  = false
+  enable_kms_key_rotation         = false
+  cluster_encryption_config = {
+    provider_key_arn = var.primary_eks_cluster_config["kms_key_arn"]
+    resources        = ["secrets"]
+  }
 
   # Adds the current caller identity as an administrator with a cluster access entry
   authentication_mode                      = "API"
@@ -43,14 +53,14 @@ module "primary_eks_cluster" {
   }
 
   cluster_addons = {
-    amazon-cloudwatch-observability = {
-      most_recent              = true
-      service_account_role_arn = module.primary_eks_iam_cloudwatch_agent_role.iam_role_arn
-    }
-    external-dns = {
-      most_recent              = true
-      service_account_role_arn = module.primary_eks_iam_external_dns_role.iam_role_arn
-    }
+    # amazon-cloudwatch-observability = {
+    #   most_recent              = true
+    #   service_account_role_arn = module.primary_eks_iam_cloudwatch_agent_role.iam_role_arn
+    # }
+    # external-dns = {
+    #   most_recent              = true
+    #   service_account_role_arn = module.primary_eks_iam_external_dns_role.iam_role_arn
+    # }
   }
 
   tags = {

@@ -35,5 +35,5 @@ rules:
 
   # Rules for line length
   line-length:
-    max: 120
+    max: 150
     level: error

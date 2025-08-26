@@ -5,7 +5,7 @@
 
 module "primary_eks_iam_cloudwatch_agent_role" {
   source                                 = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  version                                = "5.55.0"
+  version                                = "5.60.0"
   role_name                              = "${local.primary_eks_iam_role_prefix}-cloudwatch-agent"
   attach_cloudwatch_observability_policy = true
 
@@ -19,7 +19,7 @@ module "primary_eks_iam_cloudwatch_agent_role" {
 
 module "primary_eks_iam_external_dns_role" {
   source                     = "terraform-aws-modules/iam/aws//modules/iam-role-for-service-accounts-eks"
-  version                    = "5.55.0"
+  version                    = "5.60.0"
   role_name                  = "${local.primary_eks_iam_role_prefix}-ext-dns"
   attach_external_dns_policy = true
 

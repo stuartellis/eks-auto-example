@@ -17,6 +17,7 @@ variable "primary_eks_cluster_config" {
     dataplane_wait_duration          = string
     endpoint_public_access           = bool
     enable_creator_admin_permissions = bool
+    kms_key_arn                      = string
     subnet_ids                       = list(string)
     vpc_id                           = string
   })

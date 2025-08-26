@@ -1,10 +1,15 @@
-productLabel: "example"
+nodeTagProductName: amc
+nodeTagComponentName: k8s
+nodeTagEnvironmentName: dev
+nodeTagEditionName: ckms
+nodeTagEditionId: 08eefc90
 
-nodeClassIamRole: "dev-amc-k8s-210433fc-eks-auto-20250705220056092400000006"
-nodeClassName: "example-dev-class"
-nodeClassSecurityGroupId: "sg-009b24b7dcc93c482"
+nodeClassName: "amc-dev-class"
 nodeClassEphemeralStorageSize: "80Gi"
+nodeClassEphemeralStorageIops: 3000
+nodeClassEphemeralStorageThroughput: 125
+nodeClassIamRole: "dev-amc-k8s-08eefc90-nodes-20250824234749931100000002"
+nodeClassKmsKeyID: "arn:aws:kms:eu-west-2:333594256635:key/4b3bb88e-196f-4800-8af2-2bb75a715cfc"
+nodeClassSecurityGroupId: "sg-0c99bda3142cab033"
 
-nodePoolName: "example-compute"
-nodePoolCpuLimit: "1000"
-nodePoolMemoryLimit: 1000Gi
+nodePoolName: "amc-compute-od-amd64"

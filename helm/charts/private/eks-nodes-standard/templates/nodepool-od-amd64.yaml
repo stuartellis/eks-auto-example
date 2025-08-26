@@ -1,0 +1,35 @@
+apiVersion: karpenter.sh/v1
+kind: NodePool
+metadata:
+  name: { { .Values.nodePoolName } }
+spec:
+  template:
+    metadata:
+      labels:
+        product: { { .Values.nodeTagProductName } }
+        component: { { .Values.nodeTagComponentName } }
+        environment: { { .Values.nodeTagEnvironmentName } }
+        edition: { { .Values.nodeTagEditionName } }
+        editionId: { { .Values.nodeTagEditionId } }
+    spec:
+      nodeClassRef:
+        group: eks.amazonaws.com
+        kind: NodeClass
+        name: { { .Values.nodeClassName } }
+
+      requirements:
+        - key: "topology.kubernetes.io/zone"
+          operator: In
+          values: ["eu-west-2a", "eu-west-2b", "eu-west-2c"]
+        - key: "kubernetes.io/arch"
+          operator: In
+          values: ["amd64"]
+        - key: "karpenter.sh/capacity-type"
+          operator: In
+          values: ["on-demand"]
+        - key: "eks.amazonaws.com/instance-category"
+          operator: In
+          values: ["c", "m", "r"]
+        - key: "eks.amazonaws.com/instance-cpu"
+          operator: In
+          values: ["4", "8"]

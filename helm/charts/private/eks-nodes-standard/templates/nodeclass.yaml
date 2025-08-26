@@ -1,13 +1,22 @@
 apiVersion: eks.amazonaws.com/v1
 kind: NodeClass
 metadata:
-  name: {{ .Values.nodeClassName }}
+  name: { { .Values.nodeClassName } }
 spec:
-  role: {{ .Values.nodeClassIamRole }}
+  role: { { .Values.nodeClassIamRole } }
   subnetSelectorTerms:
     - tags:
         kubernetes.io/role/elb: "1"
   securityGroupSelectorTerms:
-    - id: {{ .Values.nodeClassSecurityGroupId }}
-  # ephemeralStorage:
-  #   size: {{ .Values.nodeClassEphemeralStorageSize }}
+    - id: { { .Values.nodeClassSecurityGroupId } }
+  ephemeralStorage:
+    size: { { .Values.nodeClassEphemeralStorageSize } }
+    iops: { { .Values.nodeClassEphemeralStorageIops } }
+    throughput: { { .Values.nodeClassEphemeralStorageThroughput } }
+    kmsKeyID: { { .Values.nodeClassKmsKeyID } }
+  tags:
+    Product: { { .Values.nodeTagProductName } }
+    Component: { { .Values.nodeTagComponentName } }
+    Environment: { { .Values.nodeTagEnvironmentName } }
+    Edition: { { .Values.nodeTagEditionName } }
+    EditionId: { { .Values.nodeTagEditionId } }

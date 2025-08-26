@@ -6,26 +6,41 @@
 nameOverride: ""
 fullnameOverride: ""
 
-# Label
-productLabel: "NONE"
+# Product name, for labels and tags
+nodeTagProductName: "Unknown"
+
+# Component name, for labels and tags
+nodeTagComponentName: "Unknown"
+
+# Environment name, for labels and tags
+nodeTagEnvironmentName: "Unknown"
+
+# Edition name, for labels and tags
+nodeTagEditionName: ""
+
+# Edition ID, for labels and tags
+nodeTagEditionId: ""
 
 # Name of the NodeClass
 nodeClassName: "example-class"
 
-# IAM roles for the NodeClass
+# IAM role name for the NodeClass
 nodeClassIamRole: ""
 
+# KMS Key ARN for the NodeClass
+nodeClassKmsKeyID: ""
+
 # EC2 security group ID for the NodeClass
-nodeClassSecurityGroupId: "sg-009b24b7dcc93c482"
+nodeClassSecurityGroupId: ""
 
 # Ephemeral Storage size for the NodeClass
-nodeClassEphemeralStorageSize: "8Gi"
+nodeClassEphemeralStorageSize: "80Gi"
+
+# Ephemeral Storage IOPS for the NodeClass
+nodeClassEphemeralStorageIops: "3000"
+
+# Ephemeral Storage throughput for the NodeClass
+nodeClassEphemeralStorageThroughput: "125"
 
 # Name of the Node Pool
-nodePoolName: "example-compute"
-
-# CPU limit for the Node Pool
-nodePoolCpuLimit: "1000"
-
-# Memory limit for the Node Pool
-nodePoolMemoryLimit: 1000Gi
+nodePoolName: "example-compute-od-amd64"

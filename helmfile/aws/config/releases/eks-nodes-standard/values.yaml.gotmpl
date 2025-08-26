@@ -1,10 +1,15 @@
-productLabel: {{ .Values.productLabel }}
+nodeTagProductName: {{ .Values.nodeTagProductName }}
+nodeTagComponentName: {{ .Values.nodeTagComponentName }}
+nodeTagEnvironmentName: {{ .Values.nodeTagEnvironmentName }}
+nodeTagEditionName: {{ .Values.nodeTagEditionName }}
+nodeTagEditionId: {{ .Values.nodeTagEditionId }}
 
-nodeClassIamRole: {{ .Values.nodeClassIamRole }}
 nodeClassName: {{ .Values.nodeClassName }}
+nodeClassIamRole: {{ .Values.nodeClassIamRole }}
+nodeClassKmsKeyID: {{ .Values.nodeClassKmsKeyID }}
 nodeClassSecurityGroupId: {{ .Values.nodeClassSecurityGroupId }}
 nodeClassEphemeralStorageSize: {{ .Values.nodeClassEphemeralStorageSize }}
+nodeClassEphemeralStorageIops: {{ .Values.nodeClassEphemeralStorageIops }}
+nodeClassEphemeralStorageThroughput: {{ .Values.nodeClassEphemeralStorageThroughput }}
 
 nodePoolName: {{ .Values.nodePoolName }}
-nodePoolCpuLimit: {{ .Values.nodePoolCpuLimit }}
-nodePoolMemoryLimit: {{ .Values.nodePoolMemoryLimit }}

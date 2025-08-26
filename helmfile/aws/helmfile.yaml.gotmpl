@@ -34,8 +34,6 @@ releases:
     namespace: podinfo
     version: ">5.0.0"
     installed: true
-    needs:
-     - default/eks-nodes-standard
     <<: *values
 
   - name: podinfo-ingress-alb
@@ -43,7 +41,7 @@ releases:
     labels:
       app: podinfo
     namespace: podinfo
-    installed: true
+    installed: false
     needs:
      - podinfo/podinfo
     <<: *values
