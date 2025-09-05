@@ -1,0 +1,6 @@
+# Helmfile: Helm Chart Repositories
+
+repositories:
+  - name: dockerregistry
+    url: registry-1.docker.io
+    oci: true

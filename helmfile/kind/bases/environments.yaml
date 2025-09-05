@@ -1,0 +1,6 @@
+# Helmfile: Environments with Template Values
+
+environments:
+  default:
+    values:
+      - environments/default/canary.yaml
