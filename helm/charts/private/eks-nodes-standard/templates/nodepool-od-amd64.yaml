@@ -1,21 +1,21 @@
 apiVersion: karpenter.sh/v1
 kind: NodePool
 metadata:
-  name: { { .Values.nodePoolName } }
+  name: {{ .Values.nodePoolName }}
 spec:
   template:
     metadata:
       labels:
-        product: { { .Values.nodeTagProductName } }
-        component: { { .Values.nodeTagComponentName } }
-        environment: { { .Values.nodeTagEnvironmentName } }
-        edition: { { .Values.nodeTagEditionName } }
-        editionId: { { .Values.nodeTagEditionId } }
+        product: {{ .Values.nodeTagProductName }}
+        component: {{ .Values.nodeTagComponentName }}
+        environment: {{ .Values.nodeTagEnvironmentName }}
+        edition: {{ .Values.nodeTagEditionName }}
+        editionId: {{ .Values.nodeTagEditionId }}
     spec:
       nodeClassRef:
         group: eks.amazonaws.com
         kind: NodeClass
-        name: { { .Values.nodeClassName } }
+        name: {{ .Values.nodeClassName }}
 
       requirements:
         - key: "topology.kubernetes.io/zone"
