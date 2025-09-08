@@ -62,12 +62,12 @@ repos:
         entry: trivy
         stages: [pre-commit]
         language: system
-        args: [config, --exit-code, "1", .]
+        args: [config, --tf-exclude-downloaded-modules, --exit-code, "1", .]
         pass_filenames: false
       - id: trivy-fs
         name: trivy fs
         entry: trivy
         stages: [pre-commit]
         language: system
-        args: [fs, --exit-code, "1", .]
+        args: [fs, --tf-exclude-downloaded-modules, --exit-code, "1", .]
         pass_filenames: false
