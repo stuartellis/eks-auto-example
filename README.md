@@ -6,18 +6,272 @@ SPDX-License-Identifier: MIT
 
 # eks-auto-example
 
-[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/RichardLitt/standard-readme)
-
 This project provides an example of using [Amazon EKS](https://docs.aws.amazon.com/eks/) with [Auto Mode](https://docs.aws.amazon.com/eks/latest/userguide/automode.html).
 
-## Install
+It uses [Terraform](https://www.terraform.io/) to manage the EKS clusters and [Helmfile](https://www.stuartellis.name/articles/helmfile/), a command-line tool for deploying sets of configuration to Kubernetes clusters. [Auto Mode](https://docs.aws.amazon.com/eks/latest/userguide/automode.html) for EKS configures a number of components and features that AWS recommend to integrate Kubernetes with their services and reduce manual maintenance.
 
-1. Fork this Git repository
-2. Clone your fork
+The code for this project is published on GitHub:
 
-## Usage
+- [GitHub: stuartellis/eks-auto-example](https://github.com/stuartellis/eks-auto-example)
 
-See [my Website](https://www.stuartellis.name/articles/eks-auto-mode/) for details.
+> This document refers to Terraform and OpenTofu as _TF_. The two tools work identically for the purposes of this project.
+
+## Out of Scope
+
+This project does not set up container registries or maintain container images. These will be specific to the applications that you run on your cluster.
+
+This project also does not provide the requirements to run TF. You should always use [remote TF state storage](https://opentofu.org/docs/language/state/remote/) for live systems. By default, the example code uses S3 for remote state. I recommend that you store TF remote state outside of the cloud accounts that you use for working systems. When you use S3 for TF remote state, use a separate AWS account.
+
+> The TF tooling does enable you to use [local files for state](https://opentofu.org/docs/language/settings/backends/local/) instead of remote storage. Local state means that the cloud resources can only be managed from a computer that has access to the state files.
+
+## Requirements
+
+### Required Tools on Your Computer
+
+This project uses several command-line tools. You can install all of these tools on Linux or macOS with [Homebrew](https://brew.sh/).
+
+The required command-line tools are:
+
+- [AWS CLI](https://aws.amazon.com/cli/)
+- [Helm](https://helm.sh/)
+- [Helmfile](https://helmfile.readthedocs.io/)
+- [Git](https://git-scm.com/)
+- [kubectl](https://kubernetes.io/docs/reference/kubectl/)
+- [pipx](https://pipx.pypa.io)
+- [Task](https://taskfile.dev)
+- [tenv](https://tofuutils.github.io/tenv/) with [cosign](https://github.com/sigstore/cosign)
+- [Trivy](https://trivy.dev)
+
+> We use `tenv` to install the required version of Terraform during the [set up process](#preparing-your-workstation).
+
+Use Homebrew to install the required tools:
+
+```shell
+brew install awscli pipx kubernetes-cli git go-task helmfile kustomize trivy tenv cosign
+```
+
+### AWS Account Requirements
+
+You will require at least one AWS account to host an EKS cluster and other resources. I recommend that you store user accounts, backups and TF remote state in separate AWS accounts to the clusters.
+
+You will need to set up at least one KMS key in the region that runs this cluster. EKS uses a KMS key to encrypt control plane data, and your worker nodes should use KMS for encrypted storage.
+
+You will need three IAM roles to deploy an EKS cluster with TF. These are for:
+
+- Terraform access to the remote state storage
+- Terraform execution
+- Human administrators (operators)
+
+The example code defines a _dev_ and _prod_ configuration, so that you can have separate development and production clusters. These copies can be in the same or separate AWS accounts.
+
+### AWS Requirements for Each EKS Cluster
+
+EKS clusters have various [network requirements](https://docs.aws.amazon.com/eks/latest/userguide/network-reqs.html). To avoid issues, each EKS cluster should have:
+
+- A VPC
+- Three subnets attached to the VPC, one per availability zone
+- A DNS zone in Amazon Route 53
+
+Each subnet should be a _/24_ or larger CIDR block. By default, every instance of every pod on a Kubernetes cluster will use an IP address. This means that every node will consume up to four IP addresses for Elastic Network Interfaces, plus one IP address per pod that it hosts.
+
+> Each subnet that will be used for load balancers must have tags to authorize the Kubernetes controller for AWS Load Balancers to use them. Subnets for public-facing Application Load Balancers must have a tag of _kubernetes.io/role/elb_ with the _Value_ of _1_.
+
+I recommend that you define a separate Route 53 zone for each cluster. Create these as child zones for a DNS domain that you own. This enables you to configure the ExternalDNS controller on a cluster to manage DNS records for applications on that cluster without enabling it to manage records on the parent DNS zone.
+
+## Preparing Your Workstation
+
+First, install the [requirements](#requirements). These include Task.
+
+Next, fork the example project to your own Git repository. Clone your fork of the repository.
+
+Change the working directory to the clone repository. Enter `task` in a terminal window to see the available tasks:
+
+```shell
+task
+```
+
+Run the `setup` task to set up the tools:
+
+```shell
+task setup
+```
+
+This will add the required plugins for Helmfile to your Helm installation and call `tenv` to install the required version of Terraform.
+
+## Using a Local Kubernetes Cluster
+
+There are several ways to run Kubernetes on your desktop systems, including [Minikube](https://minikube.sigs.k8s.io/docs/) and [Docker Desktop](https://www.docker.com/products/docker-desktop/), which uses [kind (Kubernetes in Docker)](https://kind.sigs.k8s.io/). Each desktop Kubernetes system will register as a context in your `kubectl` configuration. For example, Minikube registers a cluster as `minikube` by default.
+
+The project includes separate Helmfile configurations for `aws` and other targets. This structure enables you to develop with Kubernetes clusters on your laptop or workstation and use the same tooling on the EKS clusters. It currently includes example configurations for `minikube` and `kind`.
+
+> Both the `minikube` and the `kind` Helmfiles only have one environment, which is the `default`.
+
+To run Helmfile commands, use the provided tasks. By default, the tasks will use the `minikube` Helmfile configuration and the `minikube` Kubernetes context. To use other configurations and contexts, set the Helmfile configuration and the Kubernetes context as variables. For example, run this task to apply the `kind` Helmfile configuration to the `docker` Kubernetes context:
+
+```shell
+HELMFILE_PROFILE=kind HELMFILE_K8S_CONTEXT=docker task helmfile:apply
+```
+
+Then use the `helmfile:test` task to run the post-deployment integration tests that the Helm charts provide:
+
+```shell
+HELMFILE_PROFILE=kind HELMFILE_K8S_CONTEXT=docker task helmfile:test
+```
+
+Once you have deployed the Helmfile configuration, you can start port forwarding to enable access to the default _podinfo_ application:
+
+```shell
+kubectl -n podinfo port-forward deploy/podinfo 8080:9898
+```
+
+You can then see the Web page for the _podinfo_ application. Open a Web browser window with this address:
+
+- [http://host:8080/](http://host:8080/)
+
+## Setting Up an EKS Cluster
+
+## 1: Customise the Configurations for EKS
+
+Create a _dev_ branch on the repository.
+
+> The IAM principal that creates an EKS cluster is automatically granted membership of the _system:masters_ group in that cluster. In our example code, this principal is the IAM role that TF uses. The TF code also enables administrator access on the cluster to the IAM role for human system administrators.
+
+## 2: Set Your AWS Credentials
+
+If you are running the TF deployment from your own system, ensure that you have AWS credentials in your shell session:
+
+```shell
+eval $(aws configure export-credentials --format env --profile your-aws-profile)
+```
+
+## 3: Deploy the Infrastructure with TF
+
+Run the tasks to initialise, plan and apply the TF code for each root module. For example:
+
+```shell
+TFT_UNIT=amc-domain TFT_CONTEXT=dev task tft:init && task tft:plan && task tft:apply
+```
+
+Apply the modules in this order:
+
+1. _amc-domain_ - Deploys a Route 53 zone for the clusters
+2. _amc-k8s_ - Deploys a Kubernetes cluster on Amazon EKS
+
+Once the `apply` for _amc-k8s_ is complete, you will have an EKS cluster.
+
+> It takes at least 10 minutes for a new EKS cluster to be created.
+
+To use TF state, you need to comment out the `backend "s3" {}` block in the `main.tf` file in each of the three TF root modules. You then use the task `tft:init:`, rather than `tft:init`.
+
+## 4: Register Your Cluster with Kubernetes Tools
+
+Use the AWS command-line tool to register the new cluster with your kubectl configuration.
+
+If you are running the TF deployment from your own system, first ensure that you have AWS credentials in your shell session:
+
+```shell
+eval $(aws configure export-credentials --format env --profile your-aws-profile)
+```
+
+Run this command to add the cluster to your kubectl configuration:
+
+```shell
+aws eks update-kubeconfig --name your-eks-cluster-name
+```
+
+You can now access your cluster with any Kubernetes tools that read your context configuration, such as [kubectl](https://kubernetes.io/docs/reference/kubectl/), [k9s](https://k9scli.io/) and Helmfile.
+
+To set this cluster as the default context for your Kubernetes tools, run this command:
+
+```shell
+kubectl config set-context your-eks-cluster-arn
+```
+
+## 5: Test Your EKS Cluster
+
+To test the connection to the API endpoint for the cluster, first assume the IAM role for human operators. Run this command to get the credentials:
+
+```shell
+aws sts assume-role --role-arn your-human-ops-role-arn --role-session-name human-ops-session
+```
+
+Set these values as environment variables:
+
+- AccessKeyId -> AWS_ACCESS_KEY_ID
+- SecretAccessKey -> AWS_SECRET_ACCESS_KEY
+- SessionToken -> AWS_SESSION_TOKEN
+
+Next, run this command to get a response from the cluster:
+
+```shell
+kubectl version
+```
+
+The command should return output like this:
+
+```shell
+Client Version: v1.32.3
+Kustomize Version: v5.5.0
+Server Version: v1.32.3-eks-bcf3d70
+```
+
+Once you can successfully connect to a cluster, you can use the Helmfile command-line tool to work with the configuration for the cluster.
+
+## 6: Deploy the Cluster Configuration
+
+The Helmfile configuration includes an `aws` profile, which has `dev` and `prod` environments, as well as a `default` environment. Only use the `default` environment for testing.
+
+For example, run this command to apply the `dev` environment in the `aws` Helmfile configuration to an EKS context:
+
+```shell
+HELMFILE_PROFILE=aws HELMFILE_ENVIRONMENT=dev HELMFILE_K8S_CONTEXT=arn:aws:eks:eu-west-2:1234567891012:cluster/dev-amc-k8s-210433fc task helmfile:apply
+```
+
+## Destroying EKS Clusters
+
+You can destroy an EKS cluster at any time. To delete a cluster, use the `tft:destroy` task:
+
+```shell
+TFT_UNIT=amc-k8s TFT_CONTEXT=dev task tft:destroy
+```
+
+## Going Further
+
+The code in this project is a minimal configuration for an EKS Auto Mode cluster, along with a simple example Web application. You can use [EKS add-ons](https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html) or Helmfile to deploy additional applications and services on the clusters.
+
+The initial configuration is designed to work with minimal tuning. To harden the systems:
+
+1. Replace the generated IAM policies that are provided with custom policies.
+2. Disable public access to the cluster endpoint.
+3. Deploy the EKS clusters to private subnets and deploy the load balancers to public subnets.
+
+## Extra: How the TF Code Works
+
+The tasks for TF are provided by [my tooling template](https://github.com/stuartellis/tf-tasks).
+
+I have made several decisions in the example TF code for this project:
+
+- The example code uses the [EKS module](https://registry.terraform.io/modules/terraform-aws-modules/eks/aws/latest) from the [terraform-modules](https://registry.terraform.io/namespaces/terraform-aws-modules) project. This module enables you to deploy an EKS cluster by setting a relatively small number of values.
+- It uses a setting on the TF provider for AWS to apply tags on all AWS resources. This ensures that resources have a consistent set of tags with minimal code.
+- The code supports [TF test](https://opentofu.org/docs/cli/commands/test/), the built-in testing framework for TF. You may decide to use other testing frameworks.
+- The constructed names of AWS resources include an _edition_id_, which is set as a tfvar. The _edition_id_ is a shortened SHA256 hash which uniquely identifies each instance.
+
+## Resources
+
+### Amazon EKS
+
+- [Official Amazon EKS Documentation](https://docs.aws.amazon.com/eks/)
+- [EKS Workshop](https://eksworkshop.com/) - Official AWS training for EKS
+- [Amazon EKS Auto Mode Workshop](https://catalog.workshops.aws/eks-auto-mode/en-US)
+- [Amazon EKS Blueprints for Terraform](https://aws-ia.github.io/terraform-aws-eks-blueprints/)
+- [Amazon EKS Auto Mode ENABLED - Build your super-powered cluster](https://community.aws/content/2sV2SNSoVeq23OvlyHN2eS6lJfa/amazon-eks-auto-mode-enabled-build-your-super-powered-cluster) - A walk-through EKS Auto Mode with TF
+
+### Helmfile
+
+- [My article on Helmfile](https://www.stuartellis.name/articles/helmfile/)
+- [Official Helmfile Documentation](https://helmfile.readthedocs.io/)
+- [Even more powerful Helming with Helmfile](https://www.hackerstack.org/even-more-powerful-helming-with-helmfile/) - A tutorial for Helmfile by _Gmkziz_
+- [Helmfile - How to manage Kubernetes Helm releases](https://www.youtube.com/watch?v=qIJt8Iq8Zb0), a video by _AI & DevOps Toolkit_, 29 minutes
 
 ## Contributing
 
